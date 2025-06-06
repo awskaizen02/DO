@@ -40,3 +40,18 @@ docker cp 7a6f6be24e95:/work/target/vithya.war .
 /usr/local/tomcat/webapps
 
 docker cp vithya.war f280b1aacad5:/usr/local/tomcat/webapps
+
+docker attach <continer name/id>
+docker exec -it <continer name/id> /bin/bash
+docker inspect <image_name>
+docker inspect <continer_name>
+docker history <image_name>
+docker logs <continer_name>
+docker login -u <user_name>
+docker push <imageid:version>
+docker tag 2a9d8f35e1cb dockerpandian/testtag:1
+docker stats <continer name/id>
+docker ps -q | docker stats
+docker ps -q | docker stats --no-stream
+docker run -itd --cpus=".5" --name web --rm -P dockerpandian/jtom:1
+docker stats <continer name/id>
