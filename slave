@@ -1,0 +1,18 @@
+in Linux -slave-machine 
+------------------------
+      sudo yum update
+      sudo yum install git maven wget -y
+      mvn --version
+      sudo useradd -d /var/lib/jenkins jenkins
+      ssh-keygen
+      cat /home/ec2-user/.ssh/id_rsa.pub
+      sudo mkdir /var/lib/jenkins/.ssh
+      sudo vi /var/lib/jenkins/.ssh/authorized_keys
+      sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh
+      cat /home/ec2-user/.ssh/id_rsa
+      sudo rm -rf /tmp/*
+     sudo find /tmp -type d -empty -delete
+     sudo rm -rf /tmp/jenkins*
+     sudo rm -rf /tmp/hsperfdata_jenkins*
+     sudo mount -o remount,size=2G /tmp
+     sudo mount -o remount /tmp
