@@ -1,0 +1,107 @@
+
+A configuration management tool is software that helps manage and track the configurations of various components in an IT environment, such as servers, networks, and software. These tools automate the process of deploying, configuring, and managing systems and applications, ensuring consistency, reducing errors, and maintaining the desired state of your IT infrastructure. 
+
+sudo adduser ansible  // to create user
+sudo visudo	      // set sudoers permission	
+sudo vi /etc/ssh/sshd_config.d/60-cloudimg-settings.conf //
+##	PasswordAuthentication yes
+sudo service ssh restart
+
+
+https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html
+
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo add-apt-repository --yes --update ppa:ansible/ansible
+$ sudo apt install ansible
+
+
+
+vi hosts
+
+[dev]
+172.31.17.201
+172.31.17.202
+172.31.17.203
+172.31.17.204
+172.31.17.205
+172.31.17.206
+172.31.17.207
+172.31.17.208
+172.31.17.209
+172.31.17.210
+
+
+[test]
+172.31.25.121
+
+[demo:children]
+dev
+test
+
+---
+vi ansible.cfg
+
+[defaults]
+
+inventory      = hosts
+forks          = 150
+user           = ansible
+
+----
+in anisble we can use two methods to instal requirements
+	* ad-hoc
+	* playbook
+
+Ansible ad-hoc commands are simple, one-line commands executed on the command line to perform quick tasks on remote hosts. They are useful for tasks that don't require complex orchestration, like checking connectivity, rebooting servers, or copying files. Ad-hoc commands are not idempotent and don't provide the same level of reproducibility as playbooks, making them less suitable for production environments. 
+
+
+ansible dev -m ansible.builtin.copy -a "src=hosts dest=/tmp/con-hosts"
+ansible dev -m ansible.builtin.file -a "dest=/tmp/con-hosts mode=700 owner=ubuntu group=ubuntu"
+
+
+Ansible Playbooks offer a repeatable, reusable, simple configuration management and multi-machine deployment system, one that is well suited to deploying complex applications. If you need to execute a task with Ansible more than once, write a playbook and put it under source control. Then you can use the playbook to push out new configuration or confirm the configuration of remote systems.
+
+
+## https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-syntax
+
+
+---
+# YAML documents begin with the document separator ---
+
+# The minus in YAML this indicates a list item.  The playbook contains a list 
+# of plays, with each play being a dictionary
+-
+
+  # Target: where our play will run and options it will run with
+
+  # Variable: variables that will apply to the play, on all target systems
+
+  # Task: the list of tasks that will be executed within the play, this section
+  # can also be used for pre and post tasks
+
+  # Handlers: handlers that are executed as a notify key from a task
+
+  # Roles: list of roles to be imported into the play
+
+# Three dots indicate the end of a YAML document
+...
+
+
+---
+# Target: where our play will run and options it will run with
+- hosts: dev
+  user: ansible
+  become: yes
+
+# Task: the list of tasks that will be executed within the play, this section
+  tasks:
+    - name: copy file
+      ansible.builtin.copy:
+        src: index.html
+        dest: /tmp/index.html
+        owner: ansible
+        group: ubuntu
+        mode: '0777'
+
+# Handlers: handlers that are executed as a notify key from a task
