@@ -1,14 +1,20 @@
 sudo yum update
+
 sudo yum install docker -y
+
 sudo systemctl enable --now docker
 
+
 curl -fsSL https://get.docker.com -o get-docker.sh
- sudo sh get-docker.sh
+
+sudo sh get-docker.sh
 
 
 
 docker images  // to list the images
+
 docker run -it image:tag // to run a continer and login to the container
+
 docker run -d image:tag // to run a continer in a backgrond
 
 docker ps // to list the running conters
@@ -19,6 +25,7 @@ docker ps -a // to list the all the states of conters
 ca8847f35784   nginx     "/docker-entrypoint.…"   4 minutes ago   Up 3 seconds   0.0.0.0:32769->80/tcp, :::32769->80/tcp   vigorous_montalcini
 
 using singe image can create multiple containers
+
 multiple container are isolated with each other continers
 
 docker stop $(docker ps -a -q) // to stop all the containers
